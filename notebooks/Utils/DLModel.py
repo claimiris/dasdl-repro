@@ -13,6 +13,8 @@
 	      seed         RNG seed for the training-ratio subset
 	      model_dir    where the best-loss checkpoint is written
 	      verbose      Keras fit verbosity
+	      batch_feed   feed mini-batches from the in-memory arrays (keras Sequence) instead of letting Keras copy
+	                   all patches into TF memory; same shuffling/batch size. Used for SAFOD (Colab RAM).
 	      return_extras  also return {'history', 'dense_weights', 'fit_seconds', 'n_patches'} (paper Sec. 4.4/4.5)
 '''
 # Import Libs.
@@ -71,10 +73,34 @@ def compactlayer(y,D):
     return Batt
 
 
+class _PatchBatches(tensorflow.keras.utils.Sequence):
+    """dasdl-repro E3 helper: mini-batches sliced from in-memory patch arrays (no full-array copy)."""
+    def __init__(self, xF2, x2, y, batch_size, shuffle=True, seed=None):
+        super().__init__()
+        self.xF2, self.x2, self.y, self.bs, self.shuffle = xF2, x2, y, batch_size, shuffle
+        self.rng = np.random.default_rng(seed)
+        self.idx = np.arange(xF2.shape[0])
+        if shuffle:
+            self.rng.shuffle(self.idx)
+
+    def __len__(self):
+        return int(np.ceil(len(self.idx) / self.bs))
+
+    def __getitem__(self, i):
+        j = np.sort(self.idx[i * self.bs:(i + 1) * self.bs])
+        x = (self.xF2[j], self.x2[j])
+        # Keras unpacks a returned tuple as (x, y[, w]); wrap x so both inputs stay inputs
+        return (x,) if self.y is None else (x, self.y[j])
+
+    def on_epoch_end(self):
+        if self.shuffle:
+            self.rng.shuffle(self.idx)
+
+
 # Training the DL Model.
 def Train(CWT,BP,EPOCHNO,BATCHSIZE,w1,w2,s1z,s2z,D1,eq,
           train_ratio=1.0, patch_fn=None, dtype=None, seed=None,
-          model_dir='./models', verbose=1, return_extras=False):
+          model_dir='./models', verbose=1, return_extras=False, batch_feed=False):
 
     patchf = patch if patch_fn is None else patch_fn
 
@@ -181,13 +207,22 @@ def Train(CWT,BP,EPOCHNO,BATCHSIZE,w1,w2,s1z,s2z,D1,eq,
 
     # Training the DL Model
     t0 = time.time()
-    history = model.fit([fitF2,fit2], [fitF], epochs=EPOCHNO, batch_size=BATCHSIZE, shuffle=True, callbacks = callbacks, verbose = verbose)
+    if batch_feed:
+        # E3: same data, same per-epoch shuffling and batch size, but batches are sliced from the existing
+        # NumPy arrays instead of Keras first copying all patches into TF memory (OOM for SAFOD on Colab).
+        history = model.fit(_PatchBatches(fitF2, fit2, fitF, BATCHSIZE, shuffle=True, seed=seed),
+                            epochs=EPOCHNO, callbacks = callbacks, verbose = verbose)
+    else:
+        history = model.fit([fitF2,fit2], [fitF], epochs=EPOCHNO, batch_size=BATCHSIZE, shuffle=True, callbacks = callbacks, verbose = verbose)
     fit_seconds = time.time() - t0
     del fitF2, fit2, fitF
 
     # Loading the optimal Model.
     model.load_weights(ckpt)
-    out = model.predict([dataInputF2,dataInput2],batch_size=32)
+    if batch_feed:
+        out = model.predict(_PatchBatches(dataInputF2, dataInput2, None, 256, shuffle=False), verbose=0)
+    else:
+        out = model.predict([dataInputF2,dataInput2],batch_size=32)
     # Just in Case We Normalize the Band-pass Filtered Data.
     #out = out*ma1
     # Unpatching to Reconstruct the Input Data.

@@ -145,14 +145,21 @@ def exp_safod(name, eqno, trace):
     p = _dir(name)
     dn = D.load_safod(eqno)
     mrr = D.load_safod(eqno, kind='mrr')
-    r = run_proposed(dn, DT_SAFOD, 0, 20, f'safod{eqno}', model_dir=MOD, large=True)
+    # SAFOD strain-rate values are ~1e-3 while FORGE values are ~1e2-1e3. The upstream code feeds the band-passed
+    # data to a LogCosh loss without normalisation, and LogCosh is scale dependent (L2-like for tiny values,
+    # L1-like for large ones).  To train SAFOD in the same regime as the upstream FORGE example we apply one
+    # constant gain k (99th-percentile |amplitude| matched to FORGE EQ68) and divide the output by k afterwards.
+    k = float(np.percentile(np.abs(D.load_forge(68)), 99) / np.percentile(np.abs(dn), 99))
+    r = run_proposed(dn * k, DT_SAFOD, 0, 20, f'safod{eqno}', model_dir=MOD, large=True)
+    for key in ('BP', 'BPMF', 'dl', 'den'):
+        r[key] = r[key] / k
     panels = [('MRR (Chen et al. 2023b)', mrr), ('Proposed', r['den'])]
     z = _zoom(r['den'], DT_SAFOD, frac_t=0.15)
     A.compare_figure(panels, dn, DT_SAFOD, f'{p}/fig_{name}_safod_eq{eqno}.png',
                      f'SAFOD EQ{eqno} ({D.SAFOD_EVENTS[eqno][:-4]})', zoom=z, fmax=40)
     A.trace_figure([('Noisy', dn[:, trace]), ('MRR', mrr[:, trace]), ('Proposed', r['den'][:, trace])], DT_SAFOD,
                    f'{p}/fig_{name}_trace{trace}.png', f'SAFOD EQ{eqno}: trace {trace} and scalograms')
-    m = {'event': D.SAFOD_EVENTS[eqno], 'zoom_window': z, 'band_pass_hz': [0, 20],
+    m = {'event': D.SAFOD_EVENTS[eqno], 'zoom_window': z, 'band_pass_hz': [0, 20], 'amplitude_gain_k': k,
          'proposed': {**A.leakage_metrics(dn, r['den']), **_hist_summary(r['extras']['history']),
                       'n_patches': r['extras']['n_patches'], 'fit_seconds': r['extras']['fit_seconds'],
                       't_total_seconds': r['extras']['t_total']},

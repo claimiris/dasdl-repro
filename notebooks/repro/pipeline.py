@@ -44,7 +44,8 @@ def run_proposed(dn, dt, flo, fhi, tag, fast=True, large=False, train_ratio=1.0,
     t_pre = time.time() - t0
     kw = dict(train_ratio=train_ratio, seed=seed, model_dir=model_dir, verbose=verbose, return_extras=True)
     if large:   # SAFOD: identical patches, built without Python lists and stored as float32
-        kw.update(patch_fn=lambda A, l1, l2, o1, o2: patch_fast(A, l1, l2, o1, o2, dtype=np.float32), dtype=np.float32)
+        kw.update(patch_fn=lambda A, l1, l2, o1, o2: patch_fast(A, l1, l2, o1, o2, dtype=np.float32), dtype=np.float32,
+                  batch_feed=True)
     elif fast:
         kw.update(patch_fn=patch_fast)
     t1 = time.time()
