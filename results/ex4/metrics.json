@@ -1,0 +1,37 @@
+{
+  "event": "2017-07-02T03:17:32.300000Z_mag2.86.mat",
+  "zoom_window": [
+    [
+      51.004,
+      59.996
+    ],
+    [
+      0,
+      240
+    ]
+  ],
+  "band_pass_hz": [
+    0,
+    20
+  ],
+  "amplitude_gain_k": 440307586760.632,
+  "proposed": {
+    "mean_abs_local_similarity": 0.009561015900477438,
+    "p99_abs_local_similarity": 0.050793374544752454,
+    "global_correlation_signal_noise": -2.2792294313097657e-07,
+    "energy_ratio_removed": 1.000000004212546,
+    "epochs_run": 13,
+    "first_loss": 0.32436758279800415,
+    "last_loss": 0.3243311941623688,
+    "best_loss": 0.32433074712753296,
+    "n_patches": 177650,
+    "fit_seconds": 453.5121023654938,
+    "t_total_seconds": 1018.3695383071899
+  },
+  "mrr_published": {
+    "mean_abs_local_similarity": 0.010098902053143899,
+    "p99_abs_local_similarity": 0.043560314404654535,
+    "global_correlation_signal_noise": 0.00011404448859041325,
+    "energy_ratio_removed": 0.9999978085303075
+  }
+}
