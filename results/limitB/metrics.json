@@ -6,10 +6,10 @@
     "status": "inferred (no public index; catalog is chronological and this file is 3.5 min after EQ44)"
   },
   "proposed": {
-    "mean_abs_local_similarity": 0.0236796707949784,
-    "p99_abs_local_similarity": 0.14820218723091838,
-    "global_correlation_signal_noise": 0.012703526359336189,
-    "energy_ratio_removed": 0.9492641284261697
+    "mean_abs_local_similarity": 0.02362877953146915,
+    "p99_abs_local_similarity": 0.1455895848096612,
+    "global_correlation_signal_noise": 0.012434225075627274,
+    "energy_ratio_removed": 0.949022233066234
   },
   "somf_published": {
     "mean_abs_local_similarity": 0.028609967764171285,
