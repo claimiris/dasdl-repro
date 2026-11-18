@@ -1,0 +1,8 @@
+__pycache__/
+*.pyc
+data/forge/
+data/safod/
+outputs/*.npz
+outputs/*.npy
+notebooks/models/*.h5
+*.zip
