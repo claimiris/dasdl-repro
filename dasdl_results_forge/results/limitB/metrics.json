@@ -1,0 +1,20 @@
+{
+  "event": {
+    "eq": 45,
+    "file": "FORGE_78-32_iDASv3-P11_UTC190428180038.sgy",
+    "mag": 1.07,
+    "status": "inferred (no public index; catalog is chronological and this file is 3.5 min after EQ44)"
+  },
+  "proposed": {
+    "mean_abs_local_similarity": 0.0236796707949784,
+    "p99_abs_local_similarity": 0.14820218723091838,
+    "global_correlation_signal_noise": 0.012703526359336189,
+    "energy_ratio_removed": 0.9492641284261697
+  },
+  "somf_published": {
+    "mean_abs_local_similarity": 0.028609967764171285,
+    "p99_abs_local_similarity": 0.1814695215344374,
+    "global_correlation_signal_noise": 0.027678699436995594,
+    "energy_ratio_removed": 0.9483450292539004
+  }
+}

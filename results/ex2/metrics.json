@@ -1,0 +1,35 @@
+{
+  "event": {
+    "eq": 44,
+    "file": "FORGE_78-32_iDASv3-P11_UTC190428175708.sgy",
+    "mag": -0.087,
+    "status": "verified (paper Fig. 6 label \"EQ44\")"
+  },
+  "zoom_window": [
+    [
+      0.5715,
+      0.8715
+    ],
+    [
+      0,
+      240
+    ]
+  ],
+  "proposed": {
+    "mean_abs_local_similarity": 0.025350097613130198,
+    "p99_abs_local_similarity": 0.10834979993960882,
+    "global_correlation_signal_noise": 0.01575432508337293,
+    "energy_ratio_removed": 0.944079840922974,
+    "epochs_run": 100,
+    "first_loss": 6.340560436248779,
+    "last_loss": 3.2382583618164062,
+    "best_loss": 3.2382583618164062,
+    "fit_seconds": 449.130912065506
+  },
+  "somf_published": {
+    "mean_abs_local_similarity": 0.030074125384165068,
+    "p99_abs_local_similarity": 0.1551274269422816,
+    "global_correlation_signal_noise": 0.027349439078264447,
+    "energy_ratio_removed": 0.9441524740518287
+  }
+}

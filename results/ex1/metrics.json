@@ -1,0 +1,52 @@
+{
+  "event": {
+    "eq": 68,
+    "file": "FORGE_78-32_iDASv3-P11_UTC190502024438.sgy",
+    "mag": 0.065,
+    "status": "verified (paper Fig. 3 label \"EQ68\"; upstream repo uses eq-68)"
+  },
+  "zoom_window": [
+    [
+      0.051000000000000004,
+      0.35100000000000003
+    ],
+    [
+      9.0,
+      249.0
+    ]
+  ],
+  "proposed": {
+    "mean_abs_local_similarity": 0.04711346645493051,
+    "p99_abs_local_similarity": 0.19624573251954155,
+    "global_correlation_signal_noise": 0.02635843639863729,
+    "energy_ratio_removed": 0.8670415404343834,
+    "epochs_run": 100,
+    "first_loss": 6.821841716766357,
+    "last_loss": 3.662100076675415,
+    "best_loss": 3.662100076675415,
+    "n_patches": 28175,
+    "fit_seconds": 449.26548194885254,
+    "t_total_seconds": 554.2671670913696
+  },
+  "somf_published": {
+    "mean_abs_local_similarity": 0.047340766047128925,
+    "p99_abs_local_similarity": 0.19428805840456825,
+    "global_correlation_signal_noise": 0.032437175568646795,
+    "energy_ratio_removed": 0.8561312401470677
+  },
+  "fcdensenet_reimpl": {
+    "mean_abs_local_similarity": 0.05932013329351194,
+    "p99_abs_local_similarity": 0.21634446914903513,
+    "global_correlation_signal_noise": 0.04860172070080366,
+    "energy_ratio_removed": 0.781727952030205,
+    "epochs_run": 25,
+    "first_loss": 83.4144287109375,
+    "last_loss": 27.48194122314453,
+    "best_loss": 27.38817596435547,
+    "fit_seconds": 81.66908407211304
+  },
+  "paper_timing_rtx2080ti_s": {
+    "proposed_all_patches": 456,
+    "fcdensenet": 1300
+  }
+}

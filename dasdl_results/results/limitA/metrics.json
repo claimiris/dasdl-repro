@@ -1,0 +1,20 @@
+{
+  "event": {
+    "eq": 3,
+    "file": "FORGE_78-32_iDASv3-P11_UTC190423213209.sgy",
+    "mag": 0.91,
+    "status": "verified (dasdenoising-dataonly/test_oneevent.m: \"ii=3: ...UTC190423213209.sgy\")"
+  },
+  "proposed": {
+    "mean_abs_local_similarity": 0.15162256754196576,
+    "p99_abs_local_similarity": 0.4908815725757206,
+    "global_correlation_signal_noise": 0.07277411673913795,
+    "energy_ratio_removed": 0.5695861959867338
+  },
+  "fcdensenet_reimpl": {
+    "mean_abs_local_similarity": 0.08840172994948249,
+    "p99_abs_local_similarity": 0.3382467986977587,
+    "global_correlation_signal_noise": 0.056646968882479505,
+    "energy_ratio_removed": 0.4720024855958493
+  }
+}
